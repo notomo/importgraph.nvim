@@ -1,0 +1,30 @@
+*importgraph.nvim.txt*
+
+==============================================================================
+Lua module: importgraph                         *importgraph.nvim-importgraph*
+
+render({opts})                                          *importgraph.render()*
+  Returns import graph string
+
+  Parameters: ~
+    {opts} (table) TODO
+
+  Return: ~
+    (string) import graph
+
+==============================================================================
+EXAMPLES                                           *importgraph.nvim-EXAMPLES*
+
+>
+  local graph = require("importgraph").render({
+    collector = {
+      path_filter = function(path)
+        return not path:match("test/helper")
+      end,
+    },
+  })
+  print(graph)
+<
+
+==============================================================================
+vim:tw=78:ts=8:ft=help
