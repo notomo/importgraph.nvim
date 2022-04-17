@@ -1,3 +1,6 @@
+local Graph = require("importgraph.core.graph")
+local ImportedTargets = require("importgraph.core.imported_targets")
+
 local GraphFactory = {}
 GraphFactory.__index = GraphFactory
 
@@ -21,33 +24,23 @@ function GraphFactory.new(working_dir, language)
 end
 
 function GraphFactory.create(self, paths)
-  local graph = require("importgraph.vendor.misclib.collection.ordered_dict").new()
+  local graph = Graph.new(self._working_dir, self._grouping)
+
   for _, path in ipairs(paths) do
-    local import_targets, err = self:_create_one(path)
+    local imported_targets, err = self:_create_one(path)
     if err then
       return nil, err
     end
-    local group = self._grouping(path, self._working_dir)
-    graph[group] = import_targets
+    graph = graph:add(path, imported_targets)
   end
 
-  local exposed = {}
-  for k, v in graph:iter() do
-    table.insert(exposed, {
-      name = k,
-      targets = v,
-    })
-  end
-  table.sort(exposed, function(a, b)
-    return a.name < b.name
-  end)
-  return exposed, nil
+  return graph:expose(), nil
 end
 
 function GraphFactory._create_one(self, path)
   local f = io.open(path, "r")
   if not f then
-    return nil, "cannot read: " .. path
+    return nil, "cannot open: " .. path
   end
 
   local str = f:read("*a")
@@ -58,22 +51,18 @@ function GraphFactory._create_one(self, path)
     return nil, err
   end
 
-  local imported = require("importgraph.vendor.misclib.collection.ordered_dict").new()
+  local imported_targets = ImportedTargets.new()
   for _, match in self._query:iter_matches(root, str, 0, -1) do
     local captured = require("importgraph.lib.treesitter.node").get_captures(match, self._query, {
       ["import.target"] = function(tbl, tsnode)
-        tbl.tsnode = tsnode
+        tbl.target = tsnode
       end,
     })
-    local raw_text = vim.treesitter.get_node_text(captured.tsnode, str)
+    local raw_text = vim.treesitter.get_node_text(captured.target, str)
     local target = self._string_unwrapper:unwrap(raw_text)
-    imported[target] = true
+    imported_targets = imported_targets:add(target)
   end
-  local imported_targets = imported:keys()
-  table.sort(imported_targets, function(a, b)
-    return a < b
-  end)
-  return imported_targets, nil
+  return imported_targets
 end
 
 return GraphFactory

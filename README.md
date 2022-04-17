@@ -25,10 +25,13 @@ graph TB
   importgraph.command --> importgraph.core.option
   importgraph.command --> importgraph.core.renderer
   importgraph.command --> importgraph.vendor.misclib.error_handler
+  importgraph.core.graph --> importgraph.vendor.misclib.collection.ordered_dict
+  importgraph.core.graph_factory --> importgraph.core.graph
   importgraph.core.graph_factory --> importgraph.core.grouping
+  importgraph.core.graph_factory --> importgraph.core.imported_targets
   importgraph.core.graph_factory --> importgraph.lib.treesitter.node
   importgraph.core.graph_factory --> importgraph.lib.treesitter.string_unwrapper
-  importgraph.core.graph_factory --> importgraph.vendor.misclib.collection.ordered_dict
   importgraph.core.grouping --> importgraph.vendor.misclib.module
+  importgraph.core.imported_targets --> importgraph.vendor.misclib.collection.ordered_dict
   importgraph.core.renderer --> importgraph.vendor.misclib.module
 ```
