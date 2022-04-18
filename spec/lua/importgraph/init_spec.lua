@@ -28,9 +28,9 @@ return require("other")
     assert.equal(
       [[
 graph TB
-  node1 --> node2
-  node1 --> node3
-  node2 --> other]],
+  1(node1) --> 2(node2)
+  1(node1) --> 3(node3)
+  2(node2) --> 4(other)]],
       graph
     )
   end)
