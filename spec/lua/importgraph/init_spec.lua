@@ -8,14 +8,14 @@ describe("render()", function()
   it("returns graph text", function()
     helper.install_parser("lua")
 
-    helper.new_file(
+    helper.test_data:create_file(
       "node1.lua",
       [[
 require("node2")
 return require("node3")
 ]]
     )
-    helper.new_file(
+    helper.test_data:create_file(
       "node2.lua",
       [[
 return require("other")
@@ -23,7 +23,7 @@ return require("other")
     )
 
     local graph = importgraph.render({
-      collector = { working_dir = helper.test_data_dir },
+      collector = { working_dir = helper.test_data.full_path },
     })
     assert.equal(
       [[
