@@ -17,13 +17,13 @@ end
 
 function helper.use_parsers()
   vim.o.runtimepath = helper.root .. "/spec/lua/nvim-treesitter," .. vim.o.runtimepath
-  vim.cmd([[runtime plugin/nvim-treesitter.*]])
+  vim.cmd.runtime([[plugin/nvim-treesitter.*]])
 end
 
 function helper.install_parser(language)
   helper.use_parsers()
   if not vim.treesitter.language.require_language(language, nil, true) then
-    vim.cmd([[TSInstallSync ]] .. language)
+    vim.cmd.TSInstallSync(language)
   end
 end
 
