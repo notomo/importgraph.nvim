@@ -15,7 +15,7 @@ render({opts})                                          *importgraph.render()*
 ==============================================================================
 EXAMPLES                                           *importgraph.nvim-EXAMPLES*
 
->
+>lua
   local graph = require("importgraph").render({
     collector = {
       path_filter = function(path)
