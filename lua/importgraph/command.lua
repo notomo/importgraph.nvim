@@ -1,6 +1,6 @@
-local ReturnValue = require("importgraph.vendor.misclib.error_handler").for_return_value()
+local M = {}
 
-function ReturnValue.render(raw_opts)
+function M.render(raw_opts)
   local opts = require("importgraph.core.option").new(raw_opts)
 
   local graph_factory, factory_err = require("importgraph.core.graph_factory").new(
@@ -29,4 +29,4 @@ function ReturnValue.render(raw_opts)
   return render(graph)
 end
 
-return ReturnValue:methods()
+return M

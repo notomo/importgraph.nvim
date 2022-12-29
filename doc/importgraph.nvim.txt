@@ -7,7 +7,7 @@ render({opts})                                          *importgraph.render()*
   Returns import graph string
 
   Parameters: ~
-    {opts} (table) TODO
+    {opts} (table|nil) TODO
 
   Return: ~
     (string) import graph
