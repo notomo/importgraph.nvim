@@ -34,4 +34,14 @@ graph TB
       graph
     )
   end)
+
+  it("raises error if renderer is not found", function()
+    local ok, got = pcall(function()
+      importgraph.render({
+        renderer = { name = "invalid" },
+      })
+    end)
+    assert.is_false(ok)
+    assert.equals([=[[importgraph] not found renderer: invalid]=], got)
+  end)
 end)
