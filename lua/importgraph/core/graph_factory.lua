@@ -39,13 +39,10 @@ function GraphFactory.create(self, paths)
 end
 
 function GraphFactory._create_one(self, path)
-  local f = io.open(path, "r")
-  if not f then
-    return nil, "cannot open: " .. path
+  local str, read_err = require("importgraph.lib.file").read_all(path)
+  if read_err then
+    return nil, read_err
   end
-
-  local str = f:read("*a")
-  f:close()
 
   local root, err = require("importgraph.lib.treesitter.node").get_first_tree_root(str, self._language)
   if err then
