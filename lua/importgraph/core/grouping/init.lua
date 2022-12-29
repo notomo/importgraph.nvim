@@ -5,7 +5,7 @@ local default_grouping = function(path)
 end
 
 function M.new(language)
-  local grouping = require("importgraph.vendor.misclib.module").find("importgraph.handler.grouping." .. language)
+  local grouping = require("importgraph.vendor.misclib.module").find("importgraph.core.grouping." .. language)
   if grouping then
     return grouping
   end
