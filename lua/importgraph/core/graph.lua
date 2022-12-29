@@ -12,6 +12,9 @@ end
 
 function Graph.add(self, path, imported_targets)
   local group = self._grouping(path, self._working_dir)
+  if not group then
+    return self
+  end
   local raw_graph = self._graph:merge({
     [group] = imported_targets,
   })
