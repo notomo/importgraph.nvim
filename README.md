@@ -1,6 +1,6 @@
 # importgraph.nvim
 
-wip
+neovim plugin to generate import graph
 
 ## Example
 

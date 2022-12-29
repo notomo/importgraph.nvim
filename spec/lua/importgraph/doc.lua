@@ -36,7 +36,7 @@ local gen_readme = function()
   local content = ([[
 # %s
 
-wip
+neovim plugin to generate import graph
 
 ## Example
 
