@@ -3,7 +3,12 @@ return function(path, working_dir)
     return nil
   end
 
-  local relative = path:sub(#working_dir + 1)
+  path = vim.fs.normalize(path)
+  local relative = path:match("/lua/(.*)")
+  if not relative then
+    relative = path:sub(#working_dir + 1)
+  end
+
   relative = relative:gsub("/", ".")
   relative = relative:gsub(".lua$", "")
   relative = relative:gsub(".init$", "")
