@@ -10,6 +10,9 @@ M.default = {
     path_filter = function()
       return true
     end,
+    imported_target_filter = function()
+      return true
+    end,
   },
 }
 

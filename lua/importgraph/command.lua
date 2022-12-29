@@ -9,8 +9,11 @@ function ReturnValue.render(raw_opts)
     return nil, collect_err
   end
 
-  local graph_factory, factory_err =
-    require("importgraph.core.graph_factory").new(opts.collector.working_dir, opts.collector.language)
+  local graph_factory, factory_err = require("importgraph.core.graph_factory").new(
+    opts.collector.working_dir,
+    opts.collector.language,
+    opts.collector.imported_target_filter
+  )
   if factory_err then
     return nil, factory_err
   end

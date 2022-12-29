@@ -4,7 +4,7 @@ local ImportedTargets = require("importgraph.core.imported_targets")
 local GraphFactory = {}
 GraphFactory.__index = GraphFactory
 
-function GraphFactory.new(working_dir, language)
+function GraphFactory.new(working_dir, language, imported_target_filter)
   local grouping, err = require("importgraph.core.grouping").new(language)
   if err then
     return nil, err
@@ -19,6 +19,7 @@ function GraphFactory.new(working_dir, language)
     _string_unwrapper = string_unwrapper,
     _working_dir = working_dir,
     _language = language,
+    _imported_target_filter = imported_target_filter,
   }
   return setmetatable(tbl, GraphFactory)
 end
@@ -60,7 +61,10 @@ function GraphFactory._create_one(self, path)
     })
     local raw_text = vim.treesitter.get_node_text(captured.target, str)
     local target = self._string_unwrapper:unwrap(raw_text)
-    imported_targets = imported_targets:add(target)
+
+    if self._imported_target_filter(target) then
+      imported_targets = imported_targets:add(target)
+    end
   end
   return imported_targets
 end
