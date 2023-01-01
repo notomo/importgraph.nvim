@@ -6,7 +6,7 @@ local M = {}
 function M.render(opts)
   local rendered, err = require("importgraph.command").render(opts)
   if err then
-    error("[importgraph] " .. err, 0)
+    require("importgraph.vendor.misclib.message").error(err)
   end
   return rendered
 end
