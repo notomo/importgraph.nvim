@@ -35,6 +35,27 @@ graph TB
     )
   end)
 
+  it("returns graph including orphan node", function()
+    helper.install_parser("lua")
+
+    helper.test_data:create_file(
+      "node1.lua",
+      [[
+return "test"
+]]
+    )
+
+    local graph = importgraph.render({
+      collector = { working_dir = helper.test_data.full_path },
+    })
+    assert.equal(
+      [[
+graph TB
+  1(node1)]],
+      graph
+    )
+  end)
+
   it("raises error if renderer is not found", function()
     local ok, got = pcall(function()
       importgraph.render({

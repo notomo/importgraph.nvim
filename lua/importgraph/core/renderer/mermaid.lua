@@ -20,19 +20,28 @@ function Alias.index(self, name)
   return self._aliases[name]
 end
 
+local to_node_text = function(node_index, name)
+  return ("%d(%s)"):format(node_index, name)
+end
+
 return function(graph)
   local groups = {}
+  local indent = "  "
 
   local alias = Alias.new()
   for _, node in ipairs(graph) do
+    local node_index = alias:index(node.name)
+    local node_from = to_node_text(node_index, node.name)
+
     if #node.targets == 0 then
+      table.insert(groups, indent .. node_from)
       goto continue
     end
 
-    local node_index = alias:index(node.name)
     local flows = {}
     for _, v in ipairs(node.targets) do
-      local flow = ("  %d(%s) --> %d(%s)"):format(node_index, node.name, alias:index(v), v)
+      local node_to = to_node_text(alias:index(v), v)
+      local flow = ("%s%s --> %s"):format(indent, node_from, node_to)
       table.insert(flows, flow)
     end
     local group = table.concat(flows, "\n")
