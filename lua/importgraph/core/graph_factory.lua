@@ -5,18 +5,14 @@ local GraphFactory = {}
 GraphFactory.__index = GraphFactory
 
 function GraphFactory.new(working_dir, language, imported_target_filter)
-  local grouping, err = require("importgraph.core.grouping").new(language)
+  local language_handler, err = require("importgraph.core.language_handler").new(language)
   if err then
     return nil, err
   end
 
-  local query = vim.treesitter.get_query(language, "importgraph")
-  local string_unwrapper = require("importgraph.lib.treesitter.string_unwrapper").new(language)
-
   local tbl = {
-    _grouping = grouping,
-    _query = query,
-    _string_unwrapper = string_unwrapper,
+    _language_handler = language_handler,
+    _query = vim.treesitter.get_query(language, "importgraph"),
     _working_dir = working_dir,
     _language = language,
     _imported_target_filter = imported_target_filter,
@@ -25,7 +21,7 @@ function GraphFactory.new(working_dir, language, imported_target_filter)
 end
 
 function GraphFactory.create(self, paths)
-  local graph = Graph.new(self._working_dir, self._grouping)
+  local graph = Graph.new(self._working_dir, self._language_handler.grouping)
 
   for _, path in ipairs(paths) do
     local imported_targets, err = self:_create_one(path)
@@ -57,7 +53,7 @@ function GraphFactory._create_one(self, path)
       end,
     })
     local raw_text = vim.treesitter.get_node_text(captured.target, str)
-    local target = self._string_unwrapper:unwrap(raw_text)
+    local target = self._language_handler.unwrap_string(raw_text)
 
     if self._imported_target_filter(target) then
       imported_targets = imported_targets:add(target)

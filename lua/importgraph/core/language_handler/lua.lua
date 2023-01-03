@@ -1,4 +1,6 @@
-return function(path, working_dir)
+local M = {}
+
+function M.grouping(path, working_dir)
   if not vim.endswith(path, ".lua") then
     return nil
   end
@@ -15,3 +17,10 @@ return function(path, working_dir)
   relative = relative:gsub("^lua.", "")
   return relative
 end
+
+function M.unwrap_string(str)
+  local string_unwrapper = require("importgraph.lib.treesitter.string_unwrapper").new("lua")
+  return string_unwrapper:unwrap(str)
+end
+
+return M
