@@ -34,8 +34,9 @@ graph TB
   4(importgraph.core.graph_factory) --> 9(importgraph.core.language_handler)
   8(importgraph.core.imported_targets)
   9(importgraph.core.language_handler)
-  10(importgraph.core.language_handler.lua)
+  10(importgraph.core.language_handler.go)
+  11(importgraph.core.language_handler.lua)
   5(importgraph.core.option)
   6(importgraph.core.renderer)
-  11(importgraph.core.renderer.mermaid)
+  12(importgraph.core.renderer.mermaid)
 ```
