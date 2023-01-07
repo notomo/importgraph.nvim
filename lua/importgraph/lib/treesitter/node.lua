@@ -1,3 +1,5 @@
+local vim = vim
+
 local M = {}
 
 function M.get_first_tree_root(str, language)

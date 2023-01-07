@@ -1,5 +1,8 @@
 local Graph = require("importgraph.core.graph")
 local ImportedTargets = require("importgraph.core.imported_targets")
+local tslib = require("importgraph.lib.treesitter.node")
+local filelib = require("importgraph.lib.file")
+local vim = vim
 
 local GraphFactory = {}
 GraphFactory.__index = GraphFactory
@@ -41,31 +44,28 @@ function GraphFactory.create(self, paths)
 end
 
 function GraphFactory._create_one(self, path)
-  local str, read_err = require("importgraph.lib.file").read_all(path)
+  local str, read_err = filelib.read_all(path)
   if read_err then
     return nil, read_err
   end
 
-  local root, err = require("importgraph.lib.treesitter.node").get_first_tree_root(str, self._language)
+  local root, err = tslib.get_first_tree_root(str, self._language)
   if err then
     return nil, err
   end
 
-  local imported_targets = ImportedTargets.new()
+  local raw_targets = {}
   for _, match in self._query:iter_matches(root, str, 0, -1) do
-    local captured = require("importgraph.lib.treesitter.node").get_captures(match, self._query, {
+    local captured = tslib.get_captures(match, self._query, {
       ["import.target"] = function(tbl, tsnode)
         tbl.target = tsnode
       end,
     })
     local raw_text = vim.treesitter.get_node_text(captured.target, str)
     local target = self._language_handler:unwrap_string(raw_text)
-
-    if self._imported_target_filter(target) then
-      imported_targets = imported_targets:add(target)
-    end
+    table.insert(raw_targets, target)
   end
-  return imported_targets
+  return ImportedTargets.new(vim.tbl_filter(self._imported_target_filter, raw_targets))
 end
 
 return GraphFactory
