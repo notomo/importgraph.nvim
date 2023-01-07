@@ -1,6 +1,15 @@
 local M = {}
+M.__index = M
 
-function M.grouping(path, working_dir)
+function M.new(working_dir)
+  local tbl = {
+    _working_dir = working_dir,
+    _string_unwrapper = require("importgraph.lib.treesitter.string_unwrapper").new("lua"),
+  }
+  return setmetatable(tbl, M)
+end
+
+function M.grouping(self, path)
   if not vim.endswith(path, ".lua") then
     return nil
   end
@@ -8,7 +17,7 @@ function M.grouping(path, working_dir)
   path = vim.fs.normalize(path)
   local relative = path:match("/lua/(.*)")
   if not relative then
-    relative = path:sub(#working_dir + 1)
+    relative = path:sub(#self._working_dir + 1)
   end
 
   relative = relative:gsub("/", ".")
@@ -18,9 +27,20 @@ function M.grouping(path, working_dir)
   return relative
 end
 
-function M.unwrap_string(str)
-  local string_unwrapper = require("importgraph.lib.treesitter.string_unwrapper").new("lua")
-  return string_unwrapper:unwrap(str)
+function M.unwrap_string(self, str)
+  return self._string_unwrapper:unwrap(str)
+end
+
+function M.build_query()
+  return vim.treesitter.parse_query(
+    "lua",
+    [[
+(function_call
+  name: (identifier) @import (#eq? @import "require")
+  arguments: (arguments (string) @import.target)
+)
+]]
+  )
 end
 
 return M

@@ -1,24 +1,18 @@
 local Graph = {}
 Graph.__index = Graph
 
-function Graph.new(working_dir, grouping, raw_graph)
+function Graph.new(raw_graph)
   local tbl = {
-    _working_dir = working_dir,
-    _grouping = grouping,
     _graph = raw_graph or require("importgraph.vendor.misclib.collection.ordered_dict").new(),
   }
   return setmetatable(tbl, Graph)
 end
 
-function Graph.add(self, path, imported_targets)
-  local group = self._grouping(path, self._working_dir)
-  if not group then
-    return self
-  end
+function Graph.add(self, group, imported_targets)
   local raw_graph = self._graph:merge({
     [group] = imported_targets,
   })
-  return Graph.new(self._working_dir, self._grouping, raw_graph)
+  return Graph.new(raw_graph)
 end
 
 function Graph.expose(self)
