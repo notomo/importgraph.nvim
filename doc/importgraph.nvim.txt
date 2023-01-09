@@ -3,10 +3,11 @@
 ==============================================================================
 Lua module: importgraph                         *importgraph.nvim-importgraph*
 
-render({opts})                                          *importgraph.render()*
+render({language}, {opts})                              *importgraph.render()*
   Returns import graph string
 
   Parameters: ~
+    {language} (string) language name
     {opts} (table|nil) TODO
 
   Return: ~
@@ -16,7 +17,7 @@ render({opts})                                          *importgraph.render()*
 EXAMPLES                                           *importgraph.nvim-EXAMPLES*
 
 >lua
-  local graph = require("importgraph").render({
+  local graph = require("importgraph").render("lua", {
     collector = {
       working_dir = "./lua",
       path_filter = function(path)

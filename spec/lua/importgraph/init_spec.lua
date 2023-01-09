@@ -15,7 +15,7 @@ return "test"
 ]]
     )
 
-    local graph = importgraph.render({
+    local graph = importgraph.render("lua", {
       collector = { working_dir = helper.test_data.full_path },
     })
     assert.equal(
@@ -28,7 +28,7 @@ graph TB
 
   it("raises error if renderer is not found", function()
     local ok, got = pcall(function()
-      importgraph.render({
+      importgraph.render("lua", {
         renderer = { name = "invalid" },
       })
     end)

@@ -34,9 +34,8 @@ package sub
 ]]
     )
 
-    local graph = importgraph.render({
+    local graph = importgraph.render("go", {
       collector = {
-        language = "go",
         working_dir = helper.test_data.full_path,
       },
     })

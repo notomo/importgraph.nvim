@@ -22,7 +22,7 @@ return require("other")
 ]]
     )
 
-    local graph = importgraph.render({
+    local graph = importgraph.render("lua", {
       collector = { working_dir = helper.test_data.full_path },
     })
     assert.equal(

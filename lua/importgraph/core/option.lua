@@ -5,7 +5,6 @@ M.default = {
     name = "mermaid",
   },
   collector = {
-    language = "lua",
     working_dir = ".",
     path_filter = function()
       return true

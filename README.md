@@ -5,7 +5,7 @@ neovim plugin to generate import graph
 ## Example
 
 ```lua
-local graph = require("importgraph").render({
+local graph = require("importgraph").render("lua", {
   collector = {
     working_dir = "./lua",
     path_filter = function(path)
