@@ -26,7 +26,6 @@ import (
 )
 ]]
     )
-    helper.test_data:create_dir("sub")
     helper.test_data:create_file(
       "sub/a.go",
       [[
