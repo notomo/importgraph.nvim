@@ -7,6 +7,7 @@ neovim plugin to generate import graph
 ```lua
 local graph = require("importgraph").render({
   collector = {
+    working_dir = "./lua",
     path_filter = function(path)
       return not path:match("/test") and not path:match("/vendor") and not path:match("/lib")
     end,

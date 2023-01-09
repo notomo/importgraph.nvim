@@ -6,7 +6,7 @@ M.default = {
   },
   collector = {
     language = "lua",
-    working_dir = "./lua",
+    working_dir = ".",
     path_filter = function()
       return true
     end,
