@@ -32,7 +32,7 @@ function M.unwrap_string(self, str)
 end
 
 function M.build_query()
-  return vim.treesitter.parse_query(
+  return vim.treesitter.query.parse_query(
     "lua",
     [[
 (function_call
