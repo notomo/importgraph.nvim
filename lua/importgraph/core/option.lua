@@ -3,6 +3,7 @@ local M = {}
 M.default = {
   renderer = {
     name = "mermaid",
+    opts = {},
   },
   collector = {
     working_dir = ".",

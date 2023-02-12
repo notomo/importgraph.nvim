@@ -24,7 +24,13 @@ local to_node_text = function(node_index, name)
   return ("%d(%s)"):format(node_index, name)
 end
 
-return function(graph)
+local M = {}
+
+M.default_opts = {
+  direction = "TB",
+}
+
+function M.render(graph, opts)
   local groups = {}
   local indent = "  "
 
@@ -50,7 +56,10 @@ return function(graph)
     ::continue::
   end
 
-  return [[
-graph TB
-]] .. table.concat(groups, "\n")
+  local header = ([[
+graph %s
+]]):format(opts.direction)
+  return header .. table.concat(groups, "\n")
 end
+
+return M

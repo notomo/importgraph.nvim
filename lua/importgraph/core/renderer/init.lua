@@ -6,7 +6,10 @@ function M.new(raw_renderer)
   if not renderer then
     return nil, "not found renderer: " .. name
   end
-  return renderer
+  local opts = vim.tbl_deep_extend("force", renderer.default_opts, raw_renderer.opts)
+  return function(graph)
+    return renderer.render(graph, opts)
+  end
 end
 
 return M

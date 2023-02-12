@@ -6,8 +6,6 @@ describe("render() with lua", function()
   after_each(helper.after_each)
 
   it("returns graph text", function()
-    helper.install_parser("lua")
-
     helper.test_data:create_file(
       "node1.lua",
       [[

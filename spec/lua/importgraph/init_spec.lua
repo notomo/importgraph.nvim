@@ -6,8 +6,6 @@ describe("render()", function()
   after_each(helper.after_each)
 
   it("returns graph including orphan node", function()
-    helper.install_parser("lua")
-
     helper.test_data:create_file(
       "node1.lua",
       [[
@@ -34,5 +32,26 @@ graph TB
     end)
     assert.is_false(ok)
     assert.equals([=[[importgraph] not found renderer: invalid]=], got)
+  end)
+
+  it("can pass renderer specific option", function()
+    helper.test_data:create_file(
+      "node1.lua",
+      [[
+require("node2")
+]]
+    )
+    helper.test_data:create_file("node2.lua")
+
+    local graph = importgraph.render("lua", {
+      renderer = {
+        opts = {
+          direction = "LR",
+        },
+      },
+      collector = { working_dir = helper.test_data.full_path },
+    })
+
+    assert.match("^graph LR", graph)
   end)
 end)
