@@ -8,10 +8,29 @@ render({language}, {opts})                              *importgraph.render()*
 
   Parameters: ~
     {language} (string) language name
-    {opts} (table|nil) TODO
+    {opts} (Option?) |importgraph.Option|
 
   Return: ~
     (string) import graph
+
+==============================================================================
+STRUCTURE                                         *importgraph.nvim-STRUCTURE*
+
+Option                                                    *importgraph.Option*
+
+- {renderer} (RendererOption?:) |importgraph.RendererOption|
+- {collector} (CollectorOption?:) |importgraph.CollectorOption|
+
+RendererOption                                    *importgraph.RendererOption*
+
+- {name} (string?) (default: "mermaid")
+- {opts} (table?) renderer specific option
+
+CollectorOption                                  *importgraph.CollectorOption*
+
+- {working_dir} (string?) (default: ".")
+- {path_filter} ((fun(path:string):boolean)?)
+- {imported_target_filter} ((fun(imported_target:string):boolean)?)
 
 ==============================================================================
 EXAMPLES                                           *importgraph.nvim-EXAMPLES*
