@@ -1,21 +1,21 @@
 local M = {}
 
---- @class Option
---- @field renderer RendererOption?: |importgraph.RendererOption|
---- @field collector CollectorOption?: |importgraph.CollectorOption|
+--- @class ImportgraphOption
+--- @field renderer ImportgraphRendererOption?: |ImportgraphRendererOption|
+--- @field collector ImportgraphCollectorOption?: |ImportgraphCollectorOption|
 
---- @class RendererOption
+--- @class ImportgraphRendererOption
 --- @field name string? (default: "mermaid")
 --- @field opts table? renderer specific option
 
---- @class CollectorOption
+--- @class ImportgraphCollectorOption
 --- @field working_dir string? (default: ".")
 --- @field path_filter (fun(path:string):boolean)?
 --- @field imported_target_filter (fun(imported_target:string):boolean)?
 
 --- Returns import graph string
 --- @param language string: language name
---- @param opts Option? |importgraph.Option|
+--- @param opts ImportgraphOption? |ImportgraphOption|
 --- @return string: import graph
 function M.render(language, opts)
   local rendered, err = require("importgraph.command").render(language, opts)

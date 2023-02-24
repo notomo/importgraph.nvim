@@ -8,7 +8,7 @@ render({language}, {opts})                              *importgraph.render()*
 
   Parameters: ~
     {language} (string) language name
-    {opts} (Option?) |importgraph.Option|
+    {opts} (ImportgraphOption?) |ImportgraphOption|
 
   Return: ~
     (string) import graph
@@ -16,17 +16,17 @@ render({language}, {opts})                              *importgraph.render()*
 ==============================================================================
 STRUCTURE                                         *importgraph.nvim-STRUCTURE*
 
-Option                                                    *importgraph.Option*
+ImportgraphOption                                          *ImportgraphOption*
 
-- {renderer} (RendererOption?:) |importgraph.RendererOption|
-- {collector} (CollectorOption?:) |importgraph.CollectorOption|
+- {renderer} (ImportgraphRendererOption?) |ImportgraphRendererOption|
+- {collector} (ImportgraphCollectorOption?) |ImportgraphCollectorOption|
 
-RendererOption                                    *importgraph.RendererOption*
+ImportgraphRendererOption                          *ImportgraphRendererOption*
 
 - {name} (string?) (default: "mermaid")
 - {opts} (table?) renderer specific option
 
-CollectorOption                                  *importgraph.CollectorOption*
+ImportgraphCollectorOption                        *ImportgraphCollectorOption*
 
 - {working_dir} (string?) (default: ".")
 - {path_filter} ((fun(path:string):boolean)?)
