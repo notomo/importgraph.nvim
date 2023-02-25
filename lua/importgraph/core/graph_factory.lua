@@ -1,6 +1,6 @@
 local Graph = require("importgraph.core.graph")
 local ImportedTargets = require("importgraph.core.imported_targets")
-local tslib = require("importgraph.lib.treesitter.node")
+local tslib = require("importgraph.vendor.misclib.treesitter")
 local filelib = require("importgraph.lib.file")
 local vim = vim
 
