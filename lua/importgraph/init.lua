@@ -16,7 +16,7 @@ local M = {}
 --- Returns import graph string
 --- @param language string: language name
 --- @param opts ImportgraphOption? |ImportgraphOption|
---- @return string: import graph
+--- @return string # import graph
 function M.render(language, opts)
   local rendered, err = require("importgraph.command").render(language, opts)
   if err then
