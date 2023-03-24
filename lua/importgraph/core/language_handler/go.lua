@@ -51,7 +51,7 @@ function M.unwrap_string(self, str)
 end
 
 function M.build_query()
-  return vim.treesitter.query.parse_query(
+  return vim.treesitter.query.parse(
     "go",
     [[
 (import_spec
