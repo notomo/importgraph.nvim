@@ -31,6 +31,15 @@ function M.get_first_tree_root(source, language)
 end
 
 function M.get_captures(match, query, handlers)
+  if type(handlers) == "function" then
+    local captures = {}
+    for id, node in pairs(match) do
+      local captured = query.captures[id]
+      handlers(captures, captured, node)
+    end
+    return captures
+  end
+
   local captures = {}
   for id, node in pairs(match) do
     local captured = query.captures[id]
