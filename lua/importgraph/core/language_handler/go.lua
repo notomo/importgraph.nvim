@@ -1,5 +1,3 @@
-local pathlib = require("importgraph.vendor.misclib.path")
-
 local M = {}
 M.__index = M
 
@@ -13,7 +11,7 @@ function M.new(working_dir)
     error("not found go.mod")
   end
 
-  local root_dir = pathlib.trim_slash(pathlib.parent(go_mod_path))
+  local root_dir = vim.fs.normalize(vim.fs.dirname(go_mod_path))
   local cmd = { "go", "mod", "edit", "-json" }
   local stdout = require("importgraph.vendor.misclib.job.output").new()
   local job = require("importgraph.vendor.misclib.job").start(cmd, {
@@ -27,7 +25,7 @@ function M.new(working_dir)
 
   local pattern = "^" .. root_dir:gsub("%-", "%%-")
   local to_package_path = function(path)
-    local dir_path = pathlib.trim_slash(pathlib.parent(path))
+    local dir_path = vim.fs.normalize(vim.fs.dirname(path))
     local package_path = dir_path:gsub(pattern, module_path)
     return package_path
   end
