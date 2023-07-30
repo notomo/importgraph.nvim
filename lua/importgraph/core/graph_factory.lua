@@ -25,10 +25,10 @@ end
 function GraphFactory.create(self, paths)
   local graph = Graph.new()
 
-  for _, path in ipairs(paths) do
+  vim.iter(paths):each(function(path)
     local group = self._language_handler:grouping(path)
     if not group then
-      goto continue
+      return
     end
 
     local imported_targets, err = self:_create_one(path)
@@ -36,9 +36,7 @@ function GraphFactory.create(self, paths)
       return nil, err
     end
     graph = graph:add(group, imported_targets)
-
-    ::continue::
-  end
+  end)
 
   return graph:expose(), nil
 end

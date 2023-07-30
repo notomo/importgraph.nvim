@@ -35,13 +35,13 @@ function M.render(graph, opts)
   local indent = "  "
 
   local alias = Alias.new()
-  for _, node in ipairs(graph) do
+  vim.iter(graph):each(function(node)
     local node_index = alias:index(node.name)
     local node_from = to_node_text(node_index, node.name)
 
     if #node.targets == 0 then
       table.insert(groups, indent .. node_from)
-      goto continue
+      return
     end
 
     local flows = {}
@@ -52,9 +52,7 @@ function M.render(graph, opts)
     end
     local group = table.concat(flows, "\n")
     table.insert(groups, group)
-
-    ::continue::
-  end
+  end)
 
   local header = ([[
 graph %s
