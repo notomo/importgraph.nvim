@@ -63,7 +63,7 @@ function GraphFactory._create_one(self, path)
     local target = self._language_handler:unwrap_string(raw_text)
     table.insert(raw_targets, target)
   end
-  return ImportedTargets.new(vim.tbl_filter(self._imported_target_filter, raw_targets))
+  return ImportedTargets.new(vim.iter(raw_targets):filter(self._imported_target_filter):totable())
 end
 
 return GraphFactory
