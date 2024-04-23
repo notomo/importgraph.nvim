@@ -38,12 +38,15 @@ function M.new(language)
   end
 
   local tbl = {
-    _patterns = vim.tbl_map(function(e)
-      local adjust = e.adjust or function(s)
-        return s
-      end
-      return { head = "^" .. e.head, tail = e.tail .. "$", adjust = adjust }
-    end, patterns),
+    _patterns = vim
+      .iter(patterns)
+      :map(function(e)
+        local adjust = e.adjust or function(s)
+          return s
+        end
+        return { head = "^" .. e.head, tail = e.tail .. "$", adjust = adjust }
+      end)
+      :totable(),
   }
   return setmetatable(tbl, M)
 end
