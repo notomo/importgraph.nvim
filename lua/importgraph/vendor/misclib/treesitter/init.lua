@@ -33,19 +33,23 @@ end
 function M.get_captures(match, query, handlers)
   if type(handlers) == "function" then
     local captures = {}
-    for id, node in pairs(match) do
-      local captured = query.captures[id]
-      handlers(captures, captured, node)
+    for id, nodes in pairs(match) do
+      for _, node in ipairs(nodes) do
+        local captured = query.captures[id]
+        handlers(captures, captured, node)
+      end
     end
     return captures
   end
 
   local captures = {}
-  for id, node in pairs(match) do
-    local captured = query.captures[id]
-    local f = handlers[captured]
-    if f then
-      f(captures, node)
+  for id, nodes in pairs(match) do
+    for _, node in ipairs(nodes) do
+      local captured = query.captures[id]
+      local f = handlers[captured]
+      if f then
+        f(captures, node)
+      end
     end
   end
   return captures
