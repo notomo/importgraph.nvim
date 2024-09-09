@@ -1,5 +1,6 @@
 local helper = require("importgraph.test.helper")
 local importgraph = helper.require("importgraph")
+local assert = require("assertlib").typed(assert)
 
 describe("render() with go", function()
   before_each(helper.before_each)

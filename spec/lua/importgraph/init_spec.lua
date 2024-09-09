@@ -1,5 +1,6 @@
 local helper = require("importgraph.test.helper")
 local importgraph = helper.require("importgraph")
+local assert = require("assertlib").typed(assert)
 
 describe("render()", function()
   before_each(helper.before_each)
@@ -31,7 +32,7 @@ graph TB
       })
     end)
     assert.is_false(ok)
-    assert.equals([=[[importgraph] not found renderer: invalid]=], got)
+    assert.equal([=[[importgraph] not found renderer: invalid]=], got)
   end)
 
   it("can pass renderer specific option", function()
