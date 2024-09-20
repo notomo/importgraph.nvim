@@ -19,8 +19,7 @@ function helper.after_each()
 end
 
 function helper.use_parsers()
-  vim.o.runtimepath = helper.root .. "/spec/lua/nvim-treesitter," .. vim.o.runtimepath
-  vim.cmd.runtime([[plugin/nvim-treesitter.*]])
+  vim.cmd.packadd("nvim-treesitter")
 end
 
 function helper.install_parser(language)

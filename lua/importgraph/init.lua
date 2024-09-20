@@ -18,9 +18,10 @@ local M = {}
 --- @param opts ImportgraphOption? |ImportgraphOption|
 --- @return string # import graph
 function M.render(language, opts)
-  local rendered, err = require("importgraph.command").render(language, opts)
-  if err then
-    require("importgraph.vendor.misclib.message").error(err)
+  local rendered = require("importgraph.command").render(language, opts)
+  if type(rendered) == "table" then
+    require("importgraph.vendor.misclib.message").error(rendered.err)
+    return ""
   end
   return rendered
 end
