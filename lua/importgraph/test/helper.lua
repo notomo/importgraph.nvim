@@ -5,11 +5,11 @@ helper.root = helper.find_plugin_root(plugin_name)
 vim.opt.packpath:prepend(vim.fs.joinpath(helper.root, "spec/.shared/packages"))
 require("assertlib").register(require("vusted.assert").register)
 
-local runtimepath = vim.o.runtimepath
-
 function helper.before_each()
   helper.test_data = require("importgraph.vendor.misclib.test.data_dir").setup(helper.root)
-  vim.o.runtimepath = runtimepath
+  vim.cmd.packadd("nvim-treesitter")
+  vim.g.loaded_nvim_treesitter = nil
+  vim.cmd.runtime([[plugin/nvim-treesitter.lua]])
 end
 
 function helper.after_each()
@@ -18,12 +18,7 @@ function helper.after_each()
   helper.test_data:teardown()
 end
 
-function helper.use_parsers()
-  vim.cmd.packadd("nvim-treesitter")
-end
-
 function helper.install_parser(language)
-  helper.use_parsers()
   if not require("importgraph.vendor.misclib.treesitter").has_parser(language) then
     vim.cmd.TSInstallSync(language)
   end
