@@ -17,7 +17,6 @@ M.default = {
 }
 
 function M.new(raw_opts)
-  vim.validate({ raw_opts = { raw_opts, "table", true } })
   raw_opts = raw_opts or {}
 
   local opts = vim.tbl_deep_extend("force", M.default, raw_opts)

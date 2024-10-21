@@ -1,7 +1,8 @@
 local M = {}
 
+--- @param language string
+--- @param raw_opts table?
 function M.render(language, raw_opts)
-  vim.validate({ language = { language, "string" } })
   local opts = require("importgraph.core.option").new(raw_opts)
 
   local graph_factory = require("importgraph.core.graph_factory").new(

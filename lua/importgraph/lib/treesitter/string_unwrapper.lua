@@ -29,9 +29,8 @@ local language_to_patterns = {
 }
 language_to_patterns.typescript = language_to_patterns.javascript
 
+--- @param language string
 function M.new(language)
-  vim.validate({ language = { language, "string" } })
-
   local patterns = language_to_patterns[language]
   if not patterns then
     error(("no unwrapper for `%s`"):format(language))
