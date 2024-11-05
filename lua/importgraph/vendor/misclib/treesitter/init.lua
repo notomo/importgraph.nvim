@@ -7,9 +7,10 @@ end
 
 --- @param source integer|string
 --- @param language string
+--- @return TSNode|string
 function M.get_first_tree_root(source, language)
   if not M.has_parser(language) then
-    return nil, ("not found tree-sitter parser for `%s`"):format(language)
+    return ("not found tree-sitter parser for `%s`"):format(language)
   end
 
   local factory
