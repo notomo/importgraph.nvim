@@ -20,8 +20,7 @@ local M = {}
 function M.render(language, opts)
   local rendered = require("importgraph.command").render(language, opts)
   if type(rendered) == "table" then
-    require("importgraph.vendor.misclib.message").error(rendered.err)
-    return ""
+    error("[importgraph] " .. rendered.err, 0)
   end
   return rendered
 end

@@ -8,8 +8,7 @@ function M.new(working_dir)
     type = "file",
   })[1]
   if not go_mod_path then
-    require("importgraph.vendor.misclib.message").error("not found go.mod")
-    return
+    error("[importgraph] not found go.mod", 0)
   end
 
   local root_dir = vim.fs.normalize(vim.fs.dirname(go_mod_path))
@@ -21,8 +20,7 @@ function M.new(working_dir)
   })
   if type(job) == "string" then
     local err = job
-    require("importgraph.vendor.misclib.message").error(err)
-    return
+    error("[importgraph] " .. err, 0)
   end
   vim.wait(1000, function()
     return not job:is_running()
