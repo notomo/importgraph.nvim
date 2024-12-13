@@ -13,19 +13,12 @@ function M.new(working_dir)
 
   local root_dir = vim.fs.normalize(vim.fs.dirname(go_mod_path))
   local cmd = { "go", "mod", "edit", "-json" }
-  local stdout = require("importgraph.vendor.misclib.job.output").new()
-  local job = require("importgraph.vendor.misclib.job").start(cmd, {
-    cwd = root_dir,
-    on_stdout = stdout:collector(),
-  })
-  if type(job) == "string" then
-    local err = job
+  local job = vim.system(cmd, { text = true, cwd = root_dir }):wait()
+  if job.code ~= 0 then
+    local err = job.stderr
     error("[importgraph] " .. err, 0)
   end
-  vim.wait(1000, function()
-    return not job:is_running()
-  end)
-  local module_path = vim.json.decode(stdout:str()).Module.Path
+  local module_path = vim.json.decode(job.stdout).Module.Path
 
   local pattern = "^" .. root_dir:gsub("%-", "%%-")
   local to_package_path = function(path)
