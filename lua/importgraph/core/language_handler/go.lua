@@ -2,16 +2,12 @@ local M = {}
 M.__index = M
 
 function M.new(working_dir)
-  local go_mod_path = vim.fs.find("go.mod", {
-    path = working_dir,
-    upward = true,
-    type = "file",
-  })[1]
-  if not go_mod_path then
+  local root_dir = vim.fs.root(working_dir, "go.mod")
+  if not root_dir then
     error("[importgraph] not found go.mod", 0)
   end
+  root_dir = vim.fs.normalize(root_dir)
 
-  local root_dir = vim.fs.normalize(vim.fs.dirname(go_mod_path))
   local cmd = { "go", "mod", "edit", "-json" }
   local job = vim.system(cmd, { text = true, cwd = root_dir }):wait()
   if job.code ~= 0 then
