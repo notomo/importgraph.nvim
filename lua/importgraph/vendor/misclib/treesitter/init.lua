@@ -22,7 +22,7 @@ function M.get_first_tree_root(source, language)
   local parser = factory(source, language)
   assert(parser, ("failed to get parser: `%s`"):format(language))
 
-  local trees = parser:parse()
+  local trees = assert(parser:parse())
   return trees[1]:root()
 end
 
